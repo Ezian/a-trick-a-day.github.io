@@ -1,0 +1,13 @@
+main:
+  - name: "Home"
+    url: "/a-trick-a-day/"
+    weight: 1
+  - name: "Blog"
+    url: "/a-trick-a-day/blog/"
+    weight: 2
+  - name: "About"
+    url: "/a-trick-a-day/about/"
+    weight: 3
+  - name: "Golang"
+    url: "/a-trick-a-day/category/golang"
+    weight: 4
