@@ -3,9 +3,9 @@ title: "Anonymous functions"
 date: 2022-08-03T07:49:03+01:00
 layout: post
 authors: ["Sidorenko Konstantin"]
-categories: ["Golang"]
+categories: ["Golang", "Development"]
 description: Go language provides a special feature known as an anonymous function.
-thumbnail: "assets/images/thumbnail/2022-08-01-golang-anonymous-functions.jpg"
+thumbnail: "assets/images/thumbnail/2022-08-03-golang-anonymous-functions.jpg"
 comments: true
 ---
 
@@ -13,9 +13,9 @@ An anonymous function is a function which doesn’t contain any name. It is usef
 
 Go playground example: <https://go.dev/play/p/oRvkptTza2q>.
 
-### Examples
+## Examples
 
-#### Example with pointer:
+### Example with pointer
 
 ```go
 type Example struct {
@@ -44,7 +44,7 @@ This can be annoying when you have a lot of parameters, of course you can use po
 
 Go playground: <https://go.dev/play/p/EKd55TFq0Eb>.
 
-#### Example with if:
+### Example with if
 
 ```go
 type Example struct {
@@ -95,7 +95,7 @@ In that case, it's very useful and avoid copy past of your struct definition.
 
 Go playground: <https://go.dev/play/p/AnxvcLhOBdN>.
 
-#### Example with a variable:
+### Example with a variable
 
 ```go
 func main() {
@@ -113,7 +113,7 @@ In Go language, you are allowed to assign an anonymous function to a variable. W
 
 Go playground: <https://go.dev/play/p/RYPHKySpCEc>.
 
-#### Example with parameters:
+### Example with parameters
 
 ```go
 func main() {

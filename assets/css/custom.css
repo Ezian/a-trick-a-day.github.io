@@ -8,3 +8,7 @@ body {
 #search-autocomplete {
   width: 85vh;
 }
+
+.prose.post {
+  max-width: 90ch;
+}
