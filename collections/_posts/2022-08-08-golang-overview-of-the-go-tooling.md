@@ -3,194 +3,141 @@ title: "Overview of the Go tooling"
 date: 2022-08-08T07:49:03+01:00
 layout: post
 authors: ["Sidorenko Konstantin"]
-categories: ["Golang", "Tool"]
-description: By the end of this guide, you will be all about the Go tools.
+categories: ["Golang", "Tool", "CI"]
+description: I'll show you some interesting Go tools that you can integrate into your project.
 thumbnail: "assets/images/thumbnail/2022-08-08-golang-overview-of-the-go-tooling.png"
 comments: true
 ---
 
 ## Go CLI
 
-Guide using **go version go1.18.3 linux/amd64**.
+I found a very complete post about the tooling of the **go** cli here <https://www.alexedwards.net/blog/an-overview-of-go-tooling>.
+If you want to have more details I advise you to check it out.
+I am going to make a reminder of the comands that I use and recommend the most.
 
-### Running Code
+I wrote this post at the version: **1.18.5**
 
-During development, the **go run** tool is a convenient way to test your code. It is essentially a shortcut that **compiles** your code, creates an executable binary in your /tmp directory, and then **runs** that binary in one step.
+### Installing Go Packages
 
-```bash
-go run .            # Run the package in the current directory
-go run ./cmd/myapi  # Run the package in the ./cmd/myapi directory
-```
+Update from the blog I quoted above, **go get** is now deprecated to **install packages locally**, <https://go.dev/doc/go-get-install-deprecation>.
 
-## Using Compiler and Linker Flags
-
-To compile a **main** package and create an **executable binary**, you can use the **go build** tool. You can use it in conjunction with the **-o** flag, which allows you to explicitly set the output directory and binary name, as follows:
-
-```bash
-go build -o=foo .         # Build the package in the current directory
-go build -o=foo ./cmd/foo # Build the package in the ./cmd/foo directory
-```
-
-In these examples, **go build** will compile the specified package (and all dependent packages), and send it to **./foo**.
-
-You may also be interested in using the **-s** and **-w** flags to **remove debugging information** from the binary. This usually **reduces** the final **size** by about 25%. For example:
-
-```bash
-go build -ldflags="-s -w" -o=foo .  # Remove debugging information from the binary
-```
-
-### Cleaning your $GO_PATH
-
-The **downloaded dependencies** are stored in the module cache located at **$GOPATH/pkg/mod**. If you need to **clear the module cache**, you can use the **go clean** tool. But beware: this will remove the downloaded dependencies for all projects on your machine.
-
-```bash
-go clean -modcache
-```
-
-### [View documentation](https://pkg.go.dev/golang.org/x/tools/cmd/godoc)
-
-You can check the documentation of the clone project using the **go doc** tool.
-And you can also run it on your own project to check if everything exposed is well documented.
-For online packages, you can browse <https://golang.org/pkg>, which is generated from the github package doc.
-
-```bash
-go doc strings
-go doc -http=:6060 # Run http server to expose the doc
-```
-
-### Upgrade to a new version of Go
-
-The **go fix** tool was originally released in 2011 (when regular changes were still being made to the Go API) to help users automatically update their older code to be compatible with the latest version of Go. Since then, [Go's promise of compatibility](https://golang.org/doc/go1compat) means that if you upgrade from a 1.x version of Go to a newer 1.x version, everything should work and using **go fix** should generally be unnecessary.
-
-However, there are a handful of very specific problems that it addresses. You can see a summary of these by running **go tool fix -help**. If you decide that you want or need to use **go fix** after the upgrade, you should run the following command, then inspect a diff of the changes before committing them.
-
-```bash
-go fix ./...
-```
-
-### Formating and Refactoring Code
-
-You are probably familiar with using the **gofmt** tool to automatically **format your code**. But it also supports _rewrite rules_ that you can use to help **refactor your code**. I'll give you a demonstration.
-
-Let's say you have the following code and you want to change the variable foo to Foo so that it is exported:
-
-```go
-var foo int
-
-func main() {
-	foo = 1
-	fmt.Println("foo")
-}
-```
-
-To do this, you can use **gofmt** with the **-r** option to implement a rewrite rule, the **-d** option to display a differential of the changes, and the **-w** option to make the changes in place, like this:
-
-```bash
-$ gofmt -d -w -r 'foo -> Foo' .
--var foo int
-+var Foo int
-
- func bar() {
--	foo = 1
-+	Foo = 1
- 	fmt.Println("foo")
- }
-```
-
-Notice how this is smarter than a search and replace? The variable **foo** has been changed, but the string **"foo"** in the **fmt.Println()** statement has remained unchanged. Another thing to note is that the **gofmt** command works recursively, so the above command will be executed on all **\*.go** files in your current directory and subdirectories.
-
-### Installing GO Packages
-
-TODO
-
-<https://go.dev/doc/go-get-install-deprecation>
+Prefer to use **go install** :
 
 ```bash
 go install github.com/golangci/golangci-lint/cmd/golangci-lint
 golangci-lint -v
 ```
 
-### Retrieving Dependencies
+### Optimize your binary
 
-When you use **go run** (or **go test** or **go build**), all external dependencies will be automatically (and recursively) downloaded to fill in the import statements in your code. By default, the latest tagged version of the dependency will be downloaded, or if no tagged version is available, then the dependency at last commit.
+In this part, I will show you how to optimize the size of your binary easily.
 
-If you know in advance that you need a specific version of a dependency (instead of the one Go retrieves by default), you can use **go get** with the corresponding version number or commit hash. For example:
+In this case, I will use a simple example:
 
-```bash
-go get github.com/uptrace/bun@v1.1.7
-go get github.com/uptrace/bun@f2f4149
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("optimize binary")
+}
 ```
 
-### Testing
-
-You can use the go test tool to run tests in your project as follows:
+I get these 2 results when I compile my application:
 
 ```bash
-go test .          # Run all tests in the current directory
-go test ./...      # Run all tests in the current directory and sub-directories
-go test ./foo/bar  # Run all tests in the ./foo/bar directory
+-rwxr-xr-x 1 ... ... 1762620 août   5 15:08 app1
+-rwxr-xr-x 1 ... ... 1183744 août   5 15:09 app2
 ```
 
-You can also run the tests with the Go race detector enabled, which can help detect some of the data races that can occur in real life. For example:
+As you can see app2 is **~30% lighter**!
+
+- **app1** is built using:
+
+  ```bash
+  go build -o app1 .
+  ```
+
+- **app2** is built using optimizations:
+
+  ```bash
+  CGO_ENABLED=0 go build -a -ldflags "-s -w" -o app2 .
+  ```
+
+  - **CGO_ENABLED=0**, you got a [staticaly-linked binary](https://en.wikipedia.org/wiki/Static_buildd) that will work without any external dependencies (you can use **lighter docker images** like [scratch](https://hub.docker.com/_/scratch)).
+
+  - **-ldflags "-s -w"**, you can use the [-s and -w linker](https://golang.org/cmd/link/) flags to strip the debugging information:
+
+  ```bash
+  $ go tool link
+  ...
+  -s  disable symbol table
+  ...
+  -w  disable DWARF generation
+  ...
+  ```
+
+{% include alerts/green.html content='This is a must-have to put inside your <strong>CI</strong>!<br/>If you want to go deeper to optimize your binary check <a href="https://upx.github.io/">upx</a>.' %}
+
+### Testing deeper
+
+When handling goroutines quite a bit, feel free to run the tests with the Go **race detector** enabled, which can help detect some of the data races that can occur in real life. For example:
 
 ```bash
 go test -race ./...
 ```
 
-It is important to note that enabling the run detector will increase the overall execution time of your tests.
+### Test Coverage Report
 
-### Profiling Test Coverage
-
-You can enable coverage analysis when running tests by using the **-cover** option. This will display the percentage of code covered by the tests in the output for each package, like this:
-
-```bash
-$ go test -cover ./...
-ok  	github.com/thecampagnards/sql-to-go	0.467s	coverage: 78.6% of statements
-```
-
-You can also generate a coverage profile using the **-coverprofile** flag and view it in your web browser using the **go tool cover -html** command as follows:
+Another interesting point is code coverage. You can enable **coverage analysis** when running tests by using the **-coverprofile** option. This will generate a **coverage report** that can be used by Sonarqube or others, like this:
 
 ```bash
 go test -coverprofile=profile.out ./...
+```
+
+{% include alerts/info.html content="This is a must-have to run it in your <strong>CI</strong> especially if you have a code scanner that accepts this type of report!" %}
+
+You can also view it in your web browser to see the **coverage per file in detail**, using the **go tool cover -html** command as follows:
+
+```bash
 go tool cover -html=profile.out
 ```
 
-### Tidying your Dependencies
+### Managing your Dependencies
 
-Before making any changes to your code, I recommend that you run the following command to tidy up your dependencies:
+Before making any changes to your code, I recommend that you run the following commands to **update** your dependencies and get them in a **tidy** state:
 
 ```bash
+go get -u ./...
 go mod tidy
 ```
 
-The **go mod tidy** command will remove all unused dependencies from your **go.mod** and **go.sum** files, and update the files to include dependencies for all possible combinations of build/OS/architecture tags (note: go run, go test, go build etc. are 'lazy' and will only fetch the packages needed for the current build/OS/architecture tags). By doing this before each commit, it will be easier to determine which changes to your code are responsible for adding or removing which dependencies when you look at the version control history.
+{% include alerts/info.html content="When you start a development try to always keep your project up to date." %}
 
-You can also add it in the controls of your **CI** to certify that **your dependencies are always clean**.
+The **go get -u ./...** command will **update all dependencies** at once for a given module, just run the following from the root directory of your module.
 
-## [GolangCI Lint](https://golangci-lint.run/)
+The **go mod tidy** command will **remove all unused dependencies** from your **go.mod** and **go.sum** files, and update the files to include dependencies for all possible combinations of build/OS/architecture tags (note: go run, go test, go build etc. are 'lazy' and will only fetch the packages needed for the current build/OS/architecture tags). By doing this before each commit, it will be easier to determine which changes to your code are responsible for adding or removing which dependencies when you look at the version control history.
 
-Golangci-lint is a linting aggregator for Go that runs linters in parallel, reuses Go's build cache, and caches analysis results to dramatically improve performance on subsequent runs.
+{% include alerts/info.html content="<strong>go mod tidy</strong> is a must-have to run and compare the changes in your <strong>CI</strong>!<br/>
+You can check the differences using <strong>git diff --exit-code</strong>." %}
 
-It is the preferred way to set up linting in Go projects.
+## [Golangci-Lint](https://golangci-lint.run/)
 
-```go
-import "os"
+**Golangci-lint** is a **linting aggregator** for Go that runs **linters in parallel**, reuses Go's build cache, and caches analysis results to greatly improve performance on subsequent runs.
 
-func main() {}
-```
+This is the best way to implement linting in Go projects.
 
-```bash
-$ golangci-lint run ./demo.go
-demo.go:4:8: "os" imported but not used (typecheck)
-import "os"
-```
+![golangci-lint example](https://golangci-lint.run/demo.svg)
 
-Golangci-lint is [configurable via yaml](https://golangci-lint.run/usage/configuration/) which can allow you to version your rules.
+**Golangci-lint** is [configurable via yaml](https://golangci-lint.run/usage/configuration/) which can allow you to **version your rules**. Try to use as **many linters as possible**, especially if you are **starting in Go**. This will help you to understand the good practices of this language.
 
-It is a must to install in your **CI**
+{% include alerts/info.html content="This is a must-have to install in your <strong>CI</strong> !" %}
+
+{% include alerts/info.html content='If you want to enable it in your vscode, check <a href="https://golangci-lint.run/usage/integrations/#editor-integration">this documentation</a>.' %}
 
 ## References
 
-An Overview of Go's Tooling: <https://www.alexedwards.net/blog/an-overview-of-go-tooling>
-
+Golangci-lint website: <https://golangci-lint.run/><br/>
+An Overview of Go's Tooling: <https://www.alexedwards.net/blog/an-overview-of-go-tooling><br/>
 A go tooling cheat sheet: <https://github.com/fedir/go-tooling-cheat-sheet/blob/master/go-tooling-cheat-sheet.pdf>
