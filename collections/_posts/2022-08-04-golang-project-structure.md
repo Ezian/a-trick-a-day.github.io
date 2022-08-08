@@ -62,7 +62,7 @@ A package is made of **.go** files that are in the same directory and have the s
 
 ## Exemple of a project structure
 
-```tree
+```bash
 ├── cmd # folder with your binaries
 │   └── my-api
 │   │   └── main.go

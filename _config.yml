@@ -19,9 +19,9 @@ algolia:
   search_only_api_key: 5cd6440f030be29cec8c1d622bcca722
 
 logo:
-  logo_desktop_image: assets/images/logo/logo.png
+  logo_desktop_image: assets/images/logo/logo.svg
   logo_desktop_text: "A Trick <strong>A Day</strong>"
-  logo_mobile_image: assets/images/logo/logo.png
+  logo_mobile_image: assets/images/logo/logo.svg
   logo_mobile_text: ""
   logo_desktop_height: "36px"
   logo_desktop_width: "36px"
