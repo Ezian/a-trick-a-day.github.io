@@ -9,17 +9,19 @@ thumbnail: "assets/images/thumbnail/2022-08-09-blog-how-to-contibute.jpg"
 comments: true
 ---
 
+{% include alerts/info.html content='The repository can move but it will not impact the way the contributions work.' %}
+
 ## Contact US
 
-**First**, contact the [main contributors](https://github.com/soprasteria/a-trick-a-day/graphs/contributors) to discuss the **topic you want to talk** about.
+**First**, contact the [main contributors]({{ site.data.social[0].link }}/graphs/contributors) to discuss the **topic you want to talk** about.
 
-After validation, make a [fork of the github project](https://github.com/soprasteria/a-trick-a-day/fork) to create your future merger request.
+After validation, make a [fork of the github project]({{ site.data.social[0].link }}/fork) to create your future merger request.
 
 {% include alerts/info.html content='For future contributions, you will surely be added to the project so no need to fork.' %}
 
 ## Create you first Post
 
-Checkout the [README.md install section](https://github.com/soprasteria/a-trick-a-day#installing-theme), to install everything.
+Checkout the [README.md install section]({{ site.data.social[0].link }}#installing-theme), to install everything.
 
 When all is okey, **edit** the following files:
 
@@ -92,7 +94,7 @@ When all is okey, **edit** the following files:
 
 1. Add a 16:9 thumbnail to your article, name it like your post file.
    {% include alerts/info.html content='I use <a href="https://pixlr.com/fr/x/#editor">pixlr</a> to edit the thumbnails directly from a browser.' %}
-   {% include alerts/green.html content='Try to optimize its size to 640/320px' %}
+   {% include alerts/green.html content='Try to optimize its size to 640/320px. And your can use <strong>optipng</strong> and <strong>jpegoptim</strong> to optimize the image.' %}
 
 Finally, **create your merger request**, for review.
 
