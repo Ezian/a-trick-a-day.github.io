@@ -1,5 +1,5 @@
-url: "https://soprasteria.github.io"
-baseurl: "/a-trick-a-day/"
+url: "https://a-trick-a-day.github.io"
+baseurl: "/"
 permalink: pretty
 title: "A Trick A Day"
 collections_dir: collections
@@ -29,8 +29,8 @@ logo:
   logo_mobile_width: "36px"
 
 seo:
-  meta_twitter_site: "@SopraSteria"
-  meta_twitter_creator: "@SopraSteria"
+  # meta_twitter_site: "@"
+  # meta_twitter_creator: "@"
   # meta_og_image: "https://www.zerostatic.io/theme/jekyll-atlantic/jekyll-atlantic-screenshot.png"
 
 plugins:
