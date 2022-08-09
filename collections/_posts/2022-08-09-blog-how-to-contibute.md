@@ -9,8 +9,6 @@ thumbnail: "assets/images/thumbnail/2022-08-09-blog-how-to-contibute.jpg"
 comments: true
 ---
 
-{% include alerts/info.html content='The repository can move but it will not impact the way the contributions work.' %}
-
 ## Contact US
 
 **First**, contact the [main contributors]({{ site.data.social[0].link }}/graphs/contributors) to discuss the **topic you want to talk** about.
