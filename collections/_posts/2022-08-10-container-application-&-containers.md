@@ -97,7 +97,7 @@ But I think it's **better** to use a ~2 MiB **distroless images**, which we'll s
 
 The smallest distroless image, [gcr.io/distroless/static-debian11](https://github.com/GoogleContainerTools/distroless/blob/main/base/README.md), is about 2 MiB. This is about **50% of the size of Alpine (~5 MiB)**, and **less than 2% of the size of Debian (124 MiB)**.
 
-Dockerfie example, you just need to copy your binary:
+Dockerfile using the distroless image:
 
 ```Dockerfile
 FROM golang:1.19-alpine as builder
@@ -125,8 +125,10 @@ Overview of different sizes you can get depending on the base images:
 
 ```console
 $ docker image ls
-test-alpine        latest      fae3b8af8e1b   3 seconds ago        10.1MB # alpine image
-test-distroless    latest      98117ef14761   About a minute ago   6.93MB # distroless
-test-scratch-certs latest      b015a7cd8a59   14 minutes ago       4.78MB # scrtach with certs
-test-scratch       latest      2aee7e47308f   About an hour ago    4.57MB # scratch
+test-alpine        latest   fae3b8af8e1b   3 seconds ago   10.1MB # alpine image
+test-distroless    latest   98117ef14761   1 minute ago    6.93MB # distroless static-debian11
+test-scratch-certs latest   b015a7cd8a59   14 minutes ago  4.78MB # scrtach with certs
+test-scratch       latest   2aee7e47308f   2 hour ago      4.57MB # scratch
 ```
+
+{% include alerts/green.html content='Reducing all the images of your IS by ~50% or more, can change a lot (it reduces the size of the backups even if there is the layer feature, it reduces the size of the images on each of your nodes, if your image is not available on the node it also allows you to pull your images faster and therefore to start faster etc.).' %}
