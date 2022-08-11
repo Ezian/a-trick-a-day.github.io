@@ -11,7 +11,7 @@ comments: true
 
 An anonymous function is a function which doesn’t contain any name. It is useful when you want to create an inline function. In Go language, an anonymous function can form a closure. An anonymous function is also known as function literal.
 
-Go playground example: <https://go.dev/play/p/oRvkptTza2q>.
+Go playground: <https://go.dev/play/p/oRvkptTza2q>.
 
 ## Examples
 
