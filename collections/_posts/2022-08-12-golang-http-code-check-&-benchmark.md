@@ -133,4 +133,4 @@ ok  	test	3.749s
 
 After several runs of the benchmark we can see that the **Code** solution performs **slightly better**.
 
-{% include alerts/green.html content='Performance testing can be interesting, especially if you have algorithmic parts with a large volume of data to process.' %}
+{% include alerts/green.html content='Benchmark can be interesting, especially if you have algorithmic parts with a large volume of data to process.' %}
