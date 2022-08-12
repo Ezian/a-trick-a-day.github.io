@@ -41,6 +41,8 @@ plugins:
 paginate: 5
 paginate_path: /blog/page:num/
 
+contribution_page: /blog/2022-08-09-blog-how-to-contibute/
+
 collections:
   posts:
     output: true
