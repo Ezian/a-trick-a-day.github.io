@@ -9,6 +9,9 @@ thumbnail: "assets/images/thumbnail/2022-08-17-golang-struct-&-syntax-error.jpg"
 comments: true
 ---
 
+If you go further into the structures and need to to **embed structs** with **special characters** like `[`, `{`, etc.
+Like this:
+
 ```go
 package main
 
@@ -27,6 +30,8 @@ type E3 struct {
 
 Go playground: <https://go.dev/play/p/g2Jt6Nu9xI1>.
 
+You will get compilation errors:
+
 ```console
 $ go build .
 # test
@@ -37,6 +42,8 @@ $ go build .
 ```
 
 To solve this problem, you need to **embed it in a type**, and then **inherit** that type in **your struct**.
+
+Like the following:
 
 ```go
 type E1Sub []int
