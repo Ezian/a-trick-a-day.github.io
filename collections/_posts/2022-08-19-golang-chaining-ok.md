@@ -1,6 +1,6 @@
 ---
 title: "Chaining ok"
-date: 2022-08-18T07:49:03+01:00
+date: 2022-08-19T07:49:03+01:00
 layout: post
 authors: ["Sidorenko Konstantin"]
 categories: ["Golang", "Development"]
