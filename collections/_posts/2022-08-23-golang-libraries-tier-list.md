@@ -108,6 +108,52 @@ Bun does **not support** such **popular [GORM](https://github.com/go-gorm/gorm) 
 
 Is the **official** MongoDB supported **driver** for Go.
 
+## Logger
+
+## [zerolog](https://github.com/rs/zerolog)
+
+The zerolog package provides a fast and simple logger dedicated to JSON output.
+
+Zerolog's API is designed to provide both a great developer experience and stunning [performance](https://github.com/rs/zerolog#benchmarks). Its unique chaining API allows zerolog to write JSON (or CBOR) log events by avoiding allocations and reflection.
+
+Uber's [zap](https://godoc.org/go.uber.org/zap) library pioneered this approach. Zerolog is taking this concept to the next level with a simpler to use API and even better performance.
+
+{% include alerts/info.html content="It provide <strong>HTTP handlers</strong> to build your logger with some request informations." %}
+
+## [zap](https://github.com/uber-go/zap)
+
+Blazing fast, structured, leveled logging in Go.
+
+## Config
+
+## [cleanenv](https://github.com/ilyakaznacheev/cleanenv)
+
+Is a **minimalistic** **configuration reader**.
+
+This is a simple configuration reading tool. It just does the following:
+
+- **reads** and parses configuration structure **from the file**
+- **reads** and overwrites configuration structure **from environment variables**
+- **writes** a **detailed variable** list to help output
+
+## [viper](https://github.com/spf13/viper)
+
+Viper is a **complete configuration solution** for Go applications including 12-Factor apps.
+It is designed to work within an application, and can handle **all types of configuration** needs and formats. It supports:
+
+- setting defaults
+- reading from JSON, TOML, YAML, HCL, envfile and Java properties config files
+- live watching and re-reading of config files (optional)
+- reading from environment variables
+- reading from remote config systems (etcd or Consul), and watching changes
+- reading from command line flags
+- reading from buffer
+- setting explicit values
+
+Viper can be thought of as a registry for all of your applications configuration needs.
+
+{% include alerts/info.html content='viper is a <strong>heavy solution</strong>, I usually use it more for building CLI mixed with <a href="https://github.com/spf13/cobra">cobra</a>.' %}
+
 ## References
 
 List of awesome go tools: <https://github.com/avelino/awesome-go>

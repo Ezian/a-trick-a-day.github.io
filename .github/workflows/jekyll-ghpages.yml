@@ -28,5 +28,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target_branch: "gh-pages"
           pre_build_commands: apk --update add nodejs
-          # waiting https://github.com/helaili/jekyll-action/pull/88 to be merged
-          # pre_publish_commands: bundle exec jekyll algolia
+          pre_publish_commands: bundle exec jekyll algolia
