@@ -19,6 +19,8 @@ When you choose a library in Go, **pay attention to several points**:
 
 With these points you will have **more or less** an opinion on the **reliability** of this library.
 
+{% include alerts/info.html content='It is a personal opinion which is made on these libs, if you have better suggestions, do not hesitate to write it in comment.' %}
+
 ## <ins>HTTP Server</ins>
 
 ### Generator
