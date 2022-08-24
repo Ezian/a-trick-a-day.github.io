@@ -92,6 +92,7 @@ When all is okey, **edit** the following files:
 
 1. Add a 16:9 thumbnail to your article, name it like your post file.
    {% include alerts/info.html content='I use <a href="https://pixlr.com/fr/x/#editor">pixlr</a> to edit the thumbnails directly from a browser.' %}
+   {% include alerts/info.html content='I use <a href="https://carbon.now.sh">carbon.now.sh</a> to generate code images.' %}
    {% include alerts/green.html content='Try to optimize its size to 640/320px. And your can use <strong>optipng</strong> and <strong>jpegoptim</strong> to optimize the image.' %}
 
 Finally, **create your merger request**, for review.
