@@ -130,13 +130,15 @@ func doRequest() error {
 }
 
 func main() {
-	if errors.Is(doRequest(), UnavailableDBError) {
-		fmt.Println("db result is unavailable")
+	if err := doRequest(); err != nil {
+		if errors.Is(err, UnavailableDBError) {
+			fmt.Println("db result is unavailable")
+		}
 	}
 }
 ```
 
-Go playground: <https://go.dev/play/p/4AuD-BActHe>.
+Go playground: <https://go.dev/play/p/kubN4AwNems>.
 
 Output:
 
@@ -144,18 +146,20 @@ Output:
 db result is unavailable
 ```
 
-You can often **find this usage** with **DB libraries** that will return `now rows` errors and that **you can compare** to **handle the error** your way:
+You can often **find this usage** with **DB libraries** that will return `no rows` errors and that **you can compare** to **handle the error** your way:
 
 ```go
 // with go-pg
-err := db.Model(&mod).OnConflict("(user_uuid) DO NOTHING").Insert()
-if errors.Is(err, pg.ErrNoRows) {
-    // handle record not found
+if err := db.Model(&unit).Where("id = ?", 200).Select(); err != nil {
+	if errors.Is(err, pg.ErrNoRows) {
+		// handle record not found
+	}
 }
 // with gorm
-err := userHandler.db.Where("email = ?", email).First(&user).Error
-if errors.Is(err, gorm.ErrRecordNotFound) {
-    // handle record not found
+if err := userHandler.db.Where("email = ?", email).First(&user).Error; err != nil {
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		// handle record not found
+	}
 }
 ```
 
